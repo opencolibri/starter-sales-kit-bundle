@@ -1,0 +1,13 @@
+{% extends '@OpenColibriStarterSalesKit/shared/layout.html.twig' %}
+
+{% set hook = 'opencolibri_sales_kit.dataset.index' %}
+{% set context = {
+    resources: resources,
+    page: {
+        title: 'opencolibri_sales_kit.ui.datasets',
+        subheader: 'opencolibri_sales_kit.ui.datasets_subheader',
+        icon: 'lucide:database',
+        breadcrumbs: [{name: 'opencolibri_sales_kit.ui.datasets'}],
+    },
+    run_monitor: {route: 'opencolibri_sales_kit_dataset_index', params: {}},
+} %}

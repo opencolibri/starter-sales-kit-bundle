@@ -1,0 +1,17 @@
+{% extends '@OpenColibriStarterSalesKit/shared/layout.html.twig' %}
+
+{% set title = source == 'ai' ? 'opencolibri_sales_kit.ui.new_dataset_ai' : 'opencolibri_sales_kit.ui.new_dataset_existing' %}
+{% set hook = 'opencolibri_sales_kit.dataset.new' %}
+{% set context = {
+    form: form,
+    source: source,
+    page: {
+        title: title,
+        subheader: source == 'ai' ? 'opencolibri_sales_kit.ui.new_dataset_ai_subheader' : 'opencolibri_sales_kit.ui.new_dataset_existing_subheader',
+        icon: source == 'ai' ? 'lucide:sparkles' : 'lucide:globe',
+        breadcrumbs: [
+            {name: 'opencolibri_sales_kit.ui.datasets', url: path('opencolibri_sales_kit_dataset_index')},
+            {name: title},
+        ],
+    },
+} %}

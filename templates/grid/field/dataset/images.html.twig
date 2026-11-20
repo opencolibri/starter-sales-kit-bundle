@@ -1,0 +1,8 @@
+{% from '@SyliusShadcnAdminUi/shared/helper/ui.html.twig' import button_class %}
+{{ data.imageCount }}/{{ data.productCount }}
+{% if data.missingImages %}
+    <form method="post" action="{{ path('opencolibri_sales_kit_dataset_images', {slug: data.slug}) }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('dataset_images_' ~ data.slug) }}">
+        <button type="submit" class="{{ button_class('link', 'xs', 'px-0') }}">{{ 'opencolibri_sales_kit.ui.fetch_missing_images'|trans }}</button>
+    </form>
+{% endif %}

@@ -1,0 +1,20 @@
+{% set dataset = hookable_metadata.context.dataset %}
+
+<div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
+    {% for stat in [
+        {label: 'opencolibri_sales_kit.ui.products', value: dataset.productCount, icon: 'lucide:package'},
+        {label: 'opencolibri_sales_kit.ui.collections', value: dataset.collectionCount, icon: 'lucide:folder-tree'},
+        {label: 'opencolibri_sales_kit.ui.images', value: dataset.imageCount ~ '/' ~ dataset.productCount, icon: dataset.hasMissingImages ? 'lucide:image-off' : 'lucide:images', class: dataset.hasMissingImages ? 'text-destructive' : null},
+        {label: 'opencolibri_sales_kit.ui.shops', value: hookable_metadata.context.shops|length, icon: 'lucide:store'},
+    ] %}
+        <twig:shadcn:Card size="sm">
+            <twig:shadcn:Card:Header>
+                <twig:shadcn:Card:Description>{{ stat.label|trans }}</twig:shadcn:Card:Description>
+                <twig:shadcn:Card:Title class="text-xl font-semibold tabular-nums">{{ stat.value }}</twig:shadcn:Card:Title>
+                <twig:shadcn:Card:Action>
+                    <twig:ux:icon name="{{ stat.icon }}" class="size-4 {{ stat.class|default('text-muted-foreground') }}" />
+                </twig:shadcn:Card:Action>
+            </twig:shadcn:Card:Header>
+        </twig:shadcn:Card>
+    {% endfor %}
+</div>

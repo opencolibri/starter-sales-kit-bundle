@@ -1,0 +1,11 @@
+{% set shop = hookable_metadata.context.shop %}
+
+{% if shop.productCount is defined and shop.productCount == 0 %}
+    <twig:shadcn:Alert class="border-warning/40 bg-warning/5 *:[svg]:text-warning">
+        <twig:ux:icon name="lucide:triangle-alert" />
+        <twig:shadcn:Alert:Title>{{ 'opencolibri_sales_kit.ui.no_products'|trans }}</twig:shadcn:Alert:Title>
+        {% if not shop.dataset|default(false) %}
+            <twig:shadcn:Alert:Description>{{ 'opencolibri_sales_kit.ui.no_products_refetch'|trans }}</twig:shadcn:Alert:Description>
+        {% endif %}
+    </twig:shadcn:Alert>
+{% endif %}

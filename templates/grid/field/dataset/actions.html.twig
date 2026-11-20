@@ -1,0 +1,19 @@
+{% from '@SyliusShadcnAdminUi/shared/helper/ui.html.twig' import button_class %}
+<div class="flex justify-end gap-1.5">
+    <a class="{{ button_class('outline', 'sm') }}" href="{{ path('opencolibri_sales_kit_dataset_show', {slug: data.slug}) }}">
+        {{ ux_icon('lucide:eye', {'data-icon': 'inline-start', 'aria-hidden': 'true'}) }}{{ 'opencolibri_sales_kit.ui.view'|trans }}
+    </a>
+    <a class="{{ button_class('default', 'sm') }}" href="{{ path('opencolibri_sales_kit_shop_new', {dataset: data.slug}) }}">
+        {{ ux_icon('lucide:plus', {'data-icon': 'inline-start', 'aria-hidden': 'true'}) }}{{ 'opencolibri_sales_kit.ui.create_a_shop'|trans }}
+    </a>
+    <a class="{{ button_class('outline', 'icon-sm') }}" href="{{ path('opencolibri_sales_kit_dataset_download', {slug: data.slug}) }}" download title="{{ 'opencolibri_sales_kit.ui.download'|trans }}">
+        {{ ux_icon('lucide:download', {'aria-hidden': 'true'}) }}<span class="sr-only">{{ 'opencolibri_sales_kit.ui.download'|trans }}</span>
+    </a>
+    {% if not data.builtIn %}
+        {# Delete dialog of Sylius Shadcn Admin UI: posts "_csrf_token" (token id = "id") to "path". #}
+        {{ component('sylius_shadcn_admin_ui:delete_modal', {
+            id: 'dataset_delete_' ~ data.slug,
+            path: path('opencolibri_sales_kit_dataset_delete', {slug: data.slug}),
+        }) }}
+    {% endif %}
+</div>

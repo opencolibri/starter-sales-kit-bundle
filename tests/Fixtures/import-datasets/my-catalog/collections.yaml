@@ -1,0 +1,4 @@
+collections:
+    -   name: Mugs
+        image: media/collection_mugs.webp
+    -   name: Plates

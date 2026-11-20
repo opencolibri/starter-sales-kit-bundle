@@ -1,0 +1,49 @@
+{% set header = this.header %}
+<div {{ attributes }}>
+    <twig:shadcn:Card>
+        <twig:shadcn:Card:Header>
+            <twig:shadcn:Card:Title>{{ 'opencolibri_sales_kit.ui.header_layout'|trans }}</twig:shadcn:Card:Title>
+            <twig:shadcn:Card:Description>
+                {%- if header -%}
+                    {{ 'opencolibri_sales_kit.ui.header_layout_description'|trans({'%theme%': theme}) }}
+                {%- elseif theme == 'default' -%}
+                    {{ 'opencolibri_sales_kit.ui.header_layout_default_theme'|trans }}
+                {%- else -%}
+                    {{ 'opencolibri_sales_kit.ui.header_layout_unavailable'|trans({'%theme%': theme}) }}
+                {%- endif -%}
+            </twig:shadcn:Card:Description>
+        </twig:shadcn:Card:Header>
+        {% if header %}
+            <twig:shadcn:Card:Content class="flex flex-col gap-3">
+                {{ component('sales_kit:message', {message: error}) }}
+                {% if applied %}
+                    {{ component('sales_kit:message', {message: 'opencolibri_sales_kit.ui.header_layout_applied'|trans({'%theme%': theme}), type: 'success'}) }}
+                {% endif %}
+                <div class="grid items-start gap-4 md:grid-cols-2">
+                    {{ component('sales_kit:header_preview', {menu: menu, search: search}) }}
+                    <div class="flex flex-col gap-3">
+                        <div class="flex flex-col gap-1.5">
+                            <twig:shadcn:Label for="header-menu">{{ 'opencolibri_sales_kit.ui.header_menu'|trans }}</twig:shadcn:Label>
+                            <twig:shadcn:NativeSelect id="header-menu" data-model="menu">
+                                {% for item in header.menus %}
+                                    <option value="{{ item }}"{% if item == menu %} selected{% endif %}>{{ ('opencolibri_sales_kit.ui.header_menu_' ~ item)|trans }}{% if item == header.menu %} ({{ 'opencolibri_sales_kit.ui.current'|trans }}){% endif %}</option>
+                                {% endfor %}
+                            </twig:shadcn:NativeSelect>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <twig:shadcn:Label for="header-search">{{ 'opencolibri_sales_kit.ui.header_search'|trans }}</twig:shadcn:Label>
+                            <twig:shadcn:NativeSelect id="header-search" data-model="search">
+                                {% for item in header.searches %}
+                                    <option value="{{ item }}"{% if item == search %} selected{% endif %}>{{ ('opencolibri_sales_kit.ui.header_search_' ~ item)|trans }}{% if item == header.search %} ({{ 'opencolibri_sales_kit.ui.current'|trans }}){% endif %}</option>
+                                {% endfor %}
+                            </twig:shadcn:NativeSelect>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    {{ component('sales_kit:action_button', {action: 'apply', label: 'opencolibri_sales_kit.ui.apply_header_layout'|trans, variant: 'outline', icon: 'lucide:panels-top-left'}) }}
+                </div>
+            </twig:shadcn:Card:Content>
+        {% endif %}
+    </twig:shadcn:Card>
+</div>

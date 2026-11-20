@@ -1,0 +1,13 @@
+products:
+    -   title: 'Blue mug'
+        description: 'A blue mug.'
+        collection_name: Mugs
+        price_eur: 12.5
+        image: media/blue_mug.webp
+    -   title: 'Green mug'
+        collection_name: Mugs
+        price_eur: 13
+        image: media/green_mug.webp
+    -   title: 'Dinner plate'
+        collection_name: Plates
+        image: 'https://my-catalog.local/plate.jpg'

@@ -1,0 +1,66 @@
+{# Data is read here: inside a nested component, "this" is the child component. #}
+{% set shops = this.shops %}
+{% set datasets = this.datasets %}
+{% set latest = this.latestShops %}
+{% set loaded = this.countLoadedShops %}
+{% set private = this.countPrivateShops %}
+
+<div {{ attributes.defaults({class: 'flex flex-col gap-6'}) }}>
+    {{ component('sales_kit:message', {message: error}) }}
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {% for stat in [
+            {label: 'opencolibri_sales_kit.ui.shops', value: shops|length, icon: 'lucide:store', url: path('opencolibri_sales_kit_shop_index')},
+            {label: 'opencolibri_sales_kit.ui.loaded_in_sylius', value: loaded, icon: 'lucide:circle-check', class: 'text-success'},
+            {label: 'opencolibri_sales_kit.ui.private_shops', value: private, icon: 'lucide:lock'},
+            {label: 'opencolibri_sales_kit.ui.datasets', value: datasets|length, icon: 'lucide:database', url: path('opencolibri_sales_kit_dataset_index')},
+        ] %}
+            <twig:shadcn:Card>
+                <twig:shadcn:Card:Header>
+                    <twig:shadcn:Card:Description>
+                        {% if stat.url is defined %}<a href="{{ stat.url }}" class="hover:underline">{{ stat.label|trans }}</a>{% else %}{{ stat.label|trans }}{% endif %}
+                    </twig:shadcn:Card:Description>
+                    <twig:shadcn:Card:Title class="text-3xl font-semibold tabular-nums">{{ stat.value }}</twig:shadcn:Card:Title>
+                    <twig:shadcn:Card:Action>
+                        <twig:ux:icon name="{{ stat.icon }}" class="size-5 {{ stat.class|default('text-muted-foreground') }}" />
+                    </twig:shadcn:Card:Action>
+                </twig:shadcn:Card:Header>
+            </twig:shadcn:Card>
+        {% endfor %}
+    </div>
+
+    <twig:shadcn:Card>
+        <twig:shadcn:Card:Header>
+            <twig:shadcn:Card:Title>{{ 'opencolibri_sales_kit.ui.latest_shops'|trans }}</twig:shadcn:Card:Title>
+            <twig:shadcn:Card:Description>{{ 'opencolibri_sales_kit.ui.latest_shops_description'|trans }}</twig:shadcn:Card:Description>
+            <twig:shadcn:Card:Action>
+                <twig:shadcn:Button as="a" variant="outline" size="sm" href="{{ path('opencolibri_sales_kit_shop_index') }}">
+                    {{ 'opencolibri_sales_kit.ui.see_all'|trans }}
+                    <twig:ux:icon name="lucide:arrow-right" data-icon="inline-end" />
+                </twig:shadcn:Button>
+            </twig:shadcn:Card:Action>
+        </twig:shadcn:Card:Header>
+        <twig:shadcn:Card:Content>
+            {% if latest is empty %}
+                <p class="text-muted-foreground">{{ 'opencolibri_sales_kit.ui.no_shops'|trans }}</p>
+            {% else %}
+                <ul class="flex flex-col divide-y">
+                    {% for shop in latest %}
+                        <li class="flex items-center gap-3 py-2.5">
+                            <div class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted"><twig:ux:icon name="lucide:store" class="size-4" /></div>
+                            <div class="min-w-0 flex-1">
+                                <a href="{{ path('opencolibri_sales_kit_shop_show', {slug: shop.slug}) }}" class="font-medium hover:underline">{{ shop.name }}</a>
+                                <div class="truncate text-xs text-muted-foreground">{{ shop.dataset|default(shop.slug) }} · {{ shop.theme|default('default') }}</div>
+                            </div>
+                            {% if shop.shopUrl|default(false) and not shop.hasFixtures|default(false) %}
+                                <span class="cursor-not-allowed text-muted-foreground opacity-40" title="{{ 'opencolibri_sales_kit.ui.storefront_needs_fixtures'|trans }}"><twig:ux:icon name="lucide:external-link" class="size-4" /></span>
+                            {% elseif shop.shopUrl|default(false) %}
+                                <a href="{{ shop.shopUrl }}" target="_blank" rel="noreferrer" class="text-muted-foreground hover:text-foreground" title="{{ 'opencolibri_sales_kit.ui.open_storefront'|trans }}"><twig:ux:icon name="lucide:external-link" class="size-4" /></a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </twig:shadcn:Card:Content>
+    </twig:shadcn:Card>
+</div>

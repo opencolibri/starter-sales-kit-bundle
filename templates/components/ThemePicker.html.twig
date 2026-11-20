@@ -1,0 +1,44 @@
+<div {{ attributes }}>
+    <twig:shadcn:Card>
+        <twig:shadcn:Card:Header>
+            <twig:shadcn:Card:Title>{{ 'opencolibri_sales_kit.ui.storefront_theme'|trans }}</twig:shadcn:Card:Title>
+            <twig:shadcn:Card:Description>{{ 'opencolibri_sales_kit.ui.storefront_theme_description'|trans }}</twig:shadcn:Card:Description>
+        </twig:shadcn:Card:Header>
+        <twig:shadcn:Card:Content class="flex flex-col gap-4">
+            {{ component('sales_kit:message', {message: error}) }}
+            {% if applied %}
+                {{ component('sales_kit:message', {message: 'opencolibri_sales_kit.ui.theme_applied'|trans({'%theme%': currentTheme}), type: 'success'}) }}
+            {% endif %}
+            <fieldset>
+                <legend class="sr-only">{{ 'opencolibri_sales_kit.ui.theme'|trans }}</legend>
+                <div class="-m-1 grid max-h-[26rem] grid-cols-2 gap-3 overflow-y-auto p-1 sm:grid-cols-3 xl:grid-cols-4">
+                    {% for item in themes %}
+                        {% set name = item == 'default' ? 'opencolibri_sales_kit.ui.default_theme'|trans : item|replace({'_': ' '})|title %}
+                        <label class="group flex cursor-pointer flex-col gap-1.5 rounded-lg border p-1.5 transition-colors hover:bg-accent has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/30 has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/50">
+                            <input type="radio" name="theme" value="{{ item }}" data-model="theme" class="sr-only"{% if item == theme %} checked{% endif %}>
+                            {% if item == 'default' %}
+                                <span class="flex aspect-[8/5] items-center justify-center rounded-md bg-muted text-muted-foreground">
+                                    {{ ux_icon('lucide:store', {class: 'size-6', 'aria-hidden': 'true'}) }}
+                                </span>
+                            {% else %}
+                                <span class="block overflow-hidden rounded-md bg-muted">
+                                    <img src="{{ path('opencolibri_sales_kit_theme_preview', {theme: item, scheme: 'light'}) }}" alt="" width="480" height="300" loading="lazy" class="aspect-[8/5] w-full object-cover dark:hidden">
+                                    <img src="{{ path('opencolibri_sales_kit_theme_preview', {theme: item, scheme: 'dark'}) }}" alt="" width="480" height="300" loading="lazy" class="hidden aspect-[8/5] w-full object-cover dark:block">
+                                </span>
+                            {% endif %}
+                            <span class="flex items-center justify-between gap-2 px-0.5 text-sm font-medium">
+                                <span class="truncate">{{ name }}</span>
+                                {% if item == currentTheme %}
+                                    <twig:shadcn:Badge variant="secondary">{{ 'opencolibri_sales_kit.ui.current'|trans }}</twig:shadcn:Badge>
+                                {% endif %}
+                            </span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </fieldset>
+            <div>
+                {{ component('sales_kit:action_button', {action: 'apply', label: theme == currentTheme ? 'opencolibri_sales_kit.ui.apply_theme'|trans : 'opencolibri_sales_kit.ui.apply_named_theme'|trans({'%theme%': theme == 'default' ? 'opencolibri_sales_kit.ui.default_theme'|trans : theme|replace({'_': ' '})|title}), variant: 'default', icon: 'lucide:paintbrush'}) }}
+            </div>
+        </twig:shadcn:Card:Content>
+    </twig:shadcn:Card>
+</div>

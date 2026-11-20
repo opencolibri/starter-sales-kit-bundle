@@ -1,0 +1,21 @@
+{% set dataset = hookable_metadata.context.dataset %}
+{% set shops = hookable_metadata.context.shops %}
+
+<twig:shadcn:Card>
+    <twig:shadcn:Card:Header>
+        <twig:shadcn:Card:Title>{{ 'opencolibri_sales_kit.ui.shops'|trans }}</twig:shadcn:Card:Title>
+        <twig:shadcn:Card:Description>{{ (shops ? 'opencolibri_sales_kit.ui.dataset_shops' : 'opencolibri_sales_kit.ui.dataset_no_shops')|trans }}</twig:shadcn:Card:Description>
+    </twig:shadcn:Card:Header>
+    {% if shops %}
+        <twig:shadcn:Card:Content>
+            <ul class="flex flex-col divide-y">
+                {% for shop in shops %}
+                    <li class="flex items-center justify-between gap-2 py-2 first:pt-0 last:pb-0">
+                        <a href="{{ path('opencolibri_sales_kit_shop_show', {slug: shop.slug}) }}" class="min-w-0 truncate text-sm font-medium hover:underline">{{ shop.name }}</a>
+                        <twig:shadcn:Badge variant="outline">{{ shop.theme|replace({'_': ' '})|title }}</twig:shadcn:Badge>
+                    </li>
+                {% endfor %}
+            </ul>
+        </twig:shadcn:Card:Content>
+    {% endif %}
+</twig:shadcn:Card>

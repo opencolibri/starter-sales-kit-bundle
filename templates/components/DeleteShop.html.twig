@@ -1,0 +1,6 @@
+<div {{ attributes.defaults({class: size == 'sm' ? 'inline-flex flex-col items-end gap-1' : 'flex flex-col items-start gap-2'}) }}>
+    {{ component('sales_kit:action_button', {action: 'delete', label: 'sylius.ui.delete'|trans, variant: 'destructive', confirm: 'opencolibri_sales_kit.ui.delete_shop_confirm'|trans, confirm_title: 'opencolibri_sales_kit.ui.delete_shop_confirm_title'|trans, size: size, icon: 'lucide:trash-2'}) }}
+    {% if error %}
+        <p class="text-xs text-destructive" role="alert">{{ error }}</p>
+    {% endif %}
+</div>

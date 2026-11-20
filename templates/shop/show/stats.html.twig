@@ -1,0 +1,20 @@
+{% set shop = hookable_metadata.context.shop %}
+
+<div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
+    {% for stat in [
+        {label: 'opencolibri_sales_kit.ui.products', value: shop.hasYaml|default(false) ? shop.productCount|default(0) : '—', icon: 'lucide:package'},
+        {label: 'opencolibri_sales_kit.ui.collections', value: shop.collectionCount|default(0), icon: 'lucide:folder-tree'},
+        {label: 'opencolibri_sales_kit.ui.fixtures', value: (shop.hasFixtures ? 'opencolibri_sales_kit.ui.generated' : 'opencolibri_sales_kit.ui.not_generated')|trans, icon: shop.hasFixtures ? 'lucide:circle-check' : 'lucide:circle-dashed', class: shop.hasFixtures ? 'text-success' : null},
+        {label: 'opencolibri_sales_kit.ui.last_import', value: shop.importedAt|default(false) ? shop.importedAt|date('Y-m-d H:i') : '—', icon: 'lucide:clock'},
+    ] %}
+        <twig:shadcn:Card size="sm">
+            <twig:shadcn:Card:Header>
+                <twig:shadcn:Card:Description>{{ stat.label|trans }}</twig:shadcn:Card:Description>
+                <twig:shadcn:Card:Title class="text-xl font-semibold tabular-nums">{{ stat.value }}</twig:shadcn:Card:Title>
+                <twig:shadcn:Card:Action>
+                    <twig:ux:icon name="{{ stat.icon }}" class="size-4 {{ stat.class|default('text-muted-foreground') }}" />
+                </twig:shadcn:Card:Action>
+            </twig:shadcn:Card:Header>
+        </twig:shadcn:Card>
+    {% endfor %}
+</div>

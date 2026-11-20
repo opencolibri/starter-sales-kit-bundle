@@ -1,0 +1,11 @@
+{#
+ # Layout of the sales kit pages: the page hook ("hook" variable) rendered with the common page hooks, and the data
+ # of the page as hook context. Pages extend it and only set "hook" and "context".
+ #}
+{% extends '@SyliusAdminUi/base.html.twig' %}
+
+{% block title %}{{ context.page.title|default('')|trans }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% hook [hook, 'opencolibri_sales_kit.common.page'] with context %}
+{% endblock %}

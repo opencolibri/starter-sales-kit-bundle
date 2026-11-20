@@ -1,0 +1,12 @@
+{# The three optional storefront images of a shop form. "help" is the text under the legend. #}
+<fieldset class="flex flex-col gap-4 border-t pt-6">
+    <div>
+        <legend class="text-sm font-medium">{{ 'opencolibri_sales_kit.ui.images'|trans }}</legend>
+        <p class="text-sm text-muted-foreground">{{ help|trans }}</p>
+    </div>
+    <div class="grid gap-4 md:grid-cols-3">
+        {{ form_row(form.imageLogo, {label: 'opencolibri_sales_kit.ui.logo'}) }}
+        {{ form_row(form.imageHeader, {label: 'opencolibri_sales_kit.ui.hero_image'}) }}
+        {{ form_row(form.imageInterstice, {label: 'opencolibri_sales_kit.ui.interstice_image'}) }}
+    </div>
+</fieldset>

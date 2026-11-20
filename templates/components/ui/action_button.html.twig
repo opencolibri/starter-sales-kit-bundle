@@ -1,0 +1,58 @@
+{#-
+ # Button that calls a LiveAction of the live component around it, with a spinner while it runs.
+ # With "confirm" (the question, already translated), it opens the confirmation dialog of Sylius Shadcn Admin UI
+ # (sylius_shadcn_admin_ui:confirmation_modal), whose confirm button calls the action.
+ #}
+{%- props
+    action,
+    label,
+    variant = 'default',
+    size = 'default',
+    icon = null,
+    confirm = null,
+    confirm_title = null,
+    confirm_label = null
+-%}
+{%- from '@SyliusShadcnAdminUi/shared/helper/ui.html.twig' import button_class -%}
+
+{# Computed here: macros are not visible inside the <twig:...> component below. #}
+{%- set trigger_class = button_class(variant, size) -%}
+{%- set cancel_class = button_class('outline') -%}
+{%- set confirm_class = variant == 'destructive'
+    ? button_class('destructive', 'default', 'bg-destructive text-white hover:bg-destructive/90 dark:bg-destructive/60')
+    : button_class('default') -%}
+{#
+ # Content of the button (spinner, icon, label), captured once for both branches. The capture form
+ # ({% set %}…{% endset %}) keeps the HTML safe; "{% set x = ux_icon(...) %}" would not: ux_icon() is only marked
+ # safe where it is printed, it returns a plain string, so "{{ x }}" escapes it.
+ #}
+{%- set button_content -%}
+    {{- ux_icon('lucide:loader-2', {class: 'animate-spin hidden', 'aria-hidden': 'true', 'data-icon': 'inline-start', 'data-loading': 'action(' ~ action ~ ')|removeClass(hidden)'}) -}}
+    {%- if icon %}{{ ux_icon(icon, {'aria-hidden': 'true', 'data-icon': 'inline-start', 'data-loading': 'action(' ~ action ~ ')|addClass(hidden)'}) }}{% endif -%}
+    {{- label -}}
+{%- endset -%}
+
+{%- if confirm -%}
+    <twig:sylius_shadcn_admin_ui:confirmation_modal :title="confirm_title" :description="confirm">
+        <twig:block name="trigger">
+            <button type="button" class="{{ trigger_class }}" data-loading="addAttribute(disabled)" {{ trigger_attributes }}>{{ button_content }}</button>
+        </twig:block>
+        <twig:block name="media">
+            {%- if variant == 'destructive' and icon %}{{ ux_icon(icon, {class: 'text-destructive', 'aria-hidden': 'true'}) }}{% endif -%}
+        </twig:block>
+        <twig:block name="footer">
+            <button type="button" class="{{ cancel_class }}" data-action="shadcn--alert-dialog#close">{{ 'sylius.ui.cancel'|trans }}</button>
+            <button type="button" class="{{ confirm_class }}" data-action="shadcn--alert-dialog#close live#action" data-live-action-param="{{ action }}">
+                {{- confirm_label ?? label -}}
+            </button>
+        </twig:block>
+    </twig:sylius_shadcn_admin_ui:confirmation_modal>
+{%- else -%}
+    <button
+        type="button"
+        data-action="live#action"
+        data-live-action-param="{{ action }}"
+        data-loading="addAttribute(disabled)"
+        {{ attributes.defaults({class: trigger_class}) }}
+    >{{ button_content }}</button>
+{%- endif -%}

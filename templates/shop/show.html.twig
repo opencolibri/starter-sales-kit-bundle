@@ -1,0 +1,21 @@
+{% extends '@OpenColibriStarterSalesKit/shared/layout.html.twig' %}
+
+{% set hook = 'opencolibri_sales_kit.shop.show' %}
+{% set context = {
+    shop: shop,
+    projectForm: projectForm,
+    themes: themes,
+    theme_headers: theme_headers,
+    page: {
+        title: shop.name,
+        subheader: shop.dataset|default(false)
+            ? 'opencolibri_sales_kit.ui.dataset'|trans ~ ' ' ~ shop.dataset
+            : (shop.mode|default('existing') == 'ai' ? 'opencolibri_sales_kit.ui.ai_catalog' : 'opencolibri_sales_kit.ui.existing_site')|trans,
+        icon: 'lucide:store',
+        breadcrumbs: [
+            {name: 'opencolibri_sales_kit.ui.shops', url: path('opencolibri_sales_kit_shop_index')},
+            {name: shop.name},
+        ],
+    },
+    run_monitor: {route: 'opencolibri_sales_kit_shop_show', params: {slug: shop.slug}},
+} %}

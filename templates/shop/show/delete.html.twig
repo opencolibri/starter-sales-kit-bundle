@@ -1,0 +1,11 @@
+{% set shop = hookable_metadata.context.shop %}
+
+<twig:shadcn:Card class="ring-destructive/30">
+    <twig:shadcn:Card:Header>
+        <twig:shadcn:Card:Title>{{ 'opencolibri_sales_kit.ui.delete_shop'|trans }}</twig:shadcn:Card:Title>
+        <twig:shadcn:Card:Description>{{ 'opencolibri_sales_kit.ui.delete_shop_description'|trans }}</twig:shadcn:Card:Description>
+    </twig:shadcn:Card:Header>
+    <twig:shadcn:Card:Content>
+        {{ component('SalesKit:DeleteShop', {slug: shop.slug, size: 'default'}) }}
+    </twig:shadcn:Card:Content>
+</twig:shadcn:Card>

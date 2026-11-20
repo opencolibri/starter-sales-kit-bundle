@@ -1,0 +1,37 @@
+{% set dataset = hookable_metadata.context.dataset %}
+{% set preview = sales_kit_dataset_preview(dataset.slug) %}
+
+<twig:shadcn:Card>
+    <twig:shadcn:Card:Header>
+        <twig:shadcn:Card:Title>{{ 'opencolibri_sales_kit.ui.about_dataset'|trans }}</twig:shadcn:Card:Title>
+    </twig:shadcn:Card:Header>
+    <twig:shadcn:Card:Content class="flex flex-col gap-4 text-sm">
+        {% if dataset.description %}
+            <p class="text-muted-foreground">{{ dataset.description }}</p>
+        {% endif %}
+        <dl class="grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-2">
+            <dt class="text-muted-foreground">{{ 'opencolibri_sales_kit.ui.slug'|trans }}</dt>
+            <dd class="min-w-0 break-all font-mono text-xs">{{ dataset.slug }}</dd>
+            <dt class="text-muted-foreground">{{ 'opencolibri_sales_kit.ui.source'|trans }}</dt>
+            <dd>
+                {{ (dataset.builtIn ? 'opencolibri_sales_kit.ui.ready_made' : (dataset.source == 'ai' ? 'opencolibri_sales_kit.ui.ai_catalog' : 'opencolibri_sales_kit.ui.existing_site'))|trans }}
+                {% if dataset.url and dataset.source != 'ai' %}
+                    <a href="{{ dataset.url }}" target="_blank" rel="noreferrer" class="block truncate text-primary hover:underline">{{ dataset.url }}</a>
+                {% endif %}
+            </dd>
+            {% if dataset.theme %}
+                <dt class="text-muted-foreground">{{ 'opencolibri_sales_kit.ui.theme'|trans }}</dt>
+                <dd>{{ dataset.theme|replace({'_': ' '})|title }}</dd>
+            {% endif %}
+        </dl>
+        {% if dataset.theme and dataset.theme != 'default' %}
+            <div class="flex flex-col gap-1.5">
+                <span class="text-xs text-muted-foreground">{{ 'opencolibri_sales_kit.ui.dataset_theme_help'|trans }}</span>
+                <span class="block overflow-hidden rounded-md border bg-muted">
+                    <img src="{{ path('opencolibri_sales_kit_theme_preview', {theme: dataset.theme, scheme: 'light'}) }}" alt="" width="480" height="300" loading="lazy" class="aspect-[8/5] w-full object-cover dark:hidden" onerror="this.parentElement.hidden = true">
+                    <img src="{{ path('opencolibri_sales_kit_theme_preview', {theme: dataset.theme, scheme: 'dark'}) }}" alt="" width="480" height="300" loading="lazy" class="hidden aspect-[8/5] w-full object-cover dark:block" onerror="this.parentElement.hidden = true">
+                </span>
+            </div>
+        {% endif %}
+    </twig:shadcn:Card:Content>
+</twig:shadcn:Card>

@@ -1,0 +1,8 @@
+{# Page title, from the "page" context passed by the page template: {title, subheader?, icon?}. #}
+{% import '@SyliusShadcnAdminUi/shared/helper/header.html.twig' as header %}
+
+{% set page = hookable_metadata.context.page|default({}) %}
+
+<div class="min-w-0 flex-1">
+    {{ header.h1(page.title|default('')|trans, page.icon|default(null), page.subheader|default(null)|trans) }}
+</div>

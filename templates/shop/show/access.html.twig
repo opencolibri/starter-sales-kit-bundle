@@ -1,0 +1,27 @@
+{% set shop = hookable_metadata.context.shop %}
+
+{% if shop.adminPassword|default(false) and shop.shopPassword|default(false) %}
+    <twig:shadcn:Card>
+        <twig:shadcn:Card:Header>
+            <twig:shadcn:Card:Title>{{ 'opencolibri_sales_kit.ui.access'|trans }}</twig:shadcn:Card:Title>
+            <twig:shadcn:Card:Description>{{ 'opencolibri_sales_kit.ui.access_description'|trans }}</twig:shadcn:Card:Description>
+        </twig:shadcn:Card:Header>
+        <twig:shadcn:Card:Content class="flex flex-col gap-4">
+            {% for access in [
+                {title: 'opencolibri_sales_kit.ui.storefront', icon: 'lucide:shopping-bag', url: shop.shopUrl, login: shop.shopUserEmail, password: shop.shopPassword},
+                {title: 'opencolibri_sales_kit.ui.sylius_admin', icon: 'lucide:layout-dashboard', url: shop.adminUrl, login: shop.slug, password: shop.adminPassword},
+            ] %}
+                <div class="flex flex-col gap-2{% if not loop.first %} border-t pt-4{% endif %}">
+                    <div class="flex items-center gap-2 font-medium"><twig:ux:icon name="{{ access.icon }}" class="size-4 text-muted-foreground" />{{ access.title|trans }}</div>
+                    <a href="{{ access.url }}" target="_blank" rel="noreferrer" class="truncate text-sm text-primary hover:underline">{{ access.url }}</a>
+                    <dl class="grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-1 text-sm">
+                        <dt class="text-muted-foreground">{{ 'opencolibri_sales_kit.ui.login'|trans }}</dt>
+                        <dd class="min-w-0 break-all font-mono text-xs"><twig:sylius_shadcn_admin_ui:copyable value="{{ access.login }}" /></dd>
+                        <dt class="text-muted-foreground">{{ 'opencolibri_sales_kit.ui.password'|trans }}</dt>
+                        <dd class="min-w-0 break-all font-mono text-xs"><twig:sylius_shadcn_admin_ui:copyable value="{{ access.password }}" /></dd>
+                    </dl>
+                </div>
+            {% endfor %}
+        </twig:shadcn:Card:Content>
+    </twig:shadcn:Card>
+{% endif %}

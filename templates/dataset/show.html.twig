@@ -1,0 +1,21 @@
+{% extends '@OpenColibriStarterSalesKit/shared/layout.html.twig' %}
+
+{% set hook = 'opencolibri_sales_kit.dataset.show' %}
+{% set context = {
+    dataset: dataset,
+    catalog: catalog,
+    collection: collection,
+    shops: shops,
+    page: {
+        title: dataset.name,
+        subheader: dataset.builtIn
+            ? 'opencolibri_sales_kit.ui.ready_made'
+            : (dataset.source == 'ai' ? 'opencolibri_sales_kit.ui.ai_catalog' : 'opencolibri_sales_kit.ui.existing_site'),
+        icon: 'lucide:database',
+        breadcrumbs: [
+            {name: 'opencolibri_sales_kit.ui.datasets', url: path('opencolibri_sales_kit_dataset_index')},
+            {name: dataset.name},
+        ],
+    },
+    run_monitor: {route: 'opencolibri_sales_kit_dataset_show', params: {slug: dataset.slug}},
+} %}

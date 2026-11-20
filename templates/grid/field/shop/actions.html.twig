@@ -1,0 +1,16 @@
+{% from '@SyliusShadcnAdminUi/shared/helper/ui.html.twig' import button_class %}
+<div class="flex items-center justify-end gap-1.5">
+    <a href="{{ path('opencolibri_sales_kit_shop_show', {slug: data.slug}) }}" class="{{ button_class('outline', 'sm') }}">
+        {{ ux_icon('lucide:settings-2', {'aria-hidden': 'true', 'data-icon': 'inline-start'}) }}{{ 'opencolibri_sales_kit.ui.configure'|trans }}
+    </a>
+    {% if data.shopUrl and not data.hasFixtures %}
+        <span class="inline-flex size-7 cursor-not-allowed items-center justify-center rounded-md text-muted-foreground opacity-40" title="{{ 'opencolibri_sales_kit.ui.storefront_needs_fixtures'|trans }}">
+            <twig:ux:icon name="lucide:external-link" class="size-4" /><span class="sr-only">{{ 'opencolibri_sales_kit.ui.storefront_needs_fixtures'|trans }}</span>
+        </span>
+    {% elseif data.shopUrl %}
+        <a href="{{ data.shopUrl }}" target="_blank" rel="noreferrer" class="inline-flex size-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground" title="{{ 'opencolibri_sales_kit.ui.open_storefront'|trans }}">
+            <twig:ux:icon name="lucide:external-link" class="size-4" /><span class="sr-only">{{ 'opencolibri_sales_kit.ui.open_storefront'|trans }}</span>
+        </a>
+    {% endif %}
+    {{ component('SalesKit:DeleteShop', {slug: data.slug, key: data.slug}) }}
+</div>

@@ -1,0 +1,6 @@
+{% if data.builtIn %}
+    <twig:shadcn:Badge variant="secondary">{{ 'opencolibri_sales_kit.ui.ready_made'|trans }}</twig:shadcn:Badge>
+{% else %}
+    {{ (data.source == 'ai' ? 'opencolibri_sales_kit.ui.ai_catalog' : (data.source == 'existing' ? 'opencolibri_sales_kit.ui.existing_site' : data.source|default('—')))|trans }}
+    {% if data.url %}<div class="max-w-48 truncate text-xs text-muted-foreground">{{ data.url }}</div>{% endif %}
+{% endif %}

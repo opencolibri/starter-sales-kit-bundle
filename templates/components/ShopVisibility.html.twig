@@ -1,0 +1,26 @@
+<div {{ attributes }}>
+    <twig:shadcn:Card>
+        <twig:shadcn:Card:Header>
+            <twig:shadcn:Card:Title>{{ 'opencolibri_sales_kit.ui.visibility'|trans }}</twig:shadcn:Card:Title>
+            <twig:shadcn:Card:Description>{{ 'opencolibri_sales_kit.ui.visibility_description'|trans }}</twig:shadcn:Card:Description>
+            <twig:shadcn:Card:Action>
+                <twig:shadcn:Badge variant="{{ private ? 'default' : 'outline' }}">
+                    <twig:ux:icon name="{{ private ? 'lucide:lock' : 'lucide:globe' }}" data-icon="inline-start" />{{ (private ? 'opencolibri_sales_kit.ui.private' : 'opencolibri_sales_kit.ui.public')|trans }}
+                </twig:shadcn:Badge>
+            </twig:shadcn:Card:Action>
+        </twig:shadcn:Card:Header>
+        <twig:shadcn:Card:Content class="flex flex-col gap-3">
+            {{ component('sales_kit:message', {message: error}) }}
+            {% if applied %}
+                {{ component('sales_kit:message', {message: (private ? 'opencolibri_sales_kit.ui.now_private' : 'opencolibri_sales_kit.ui.now_public')|trans, type: 'success'}) }}
+            {% endif %}
+            <div>
+                {% if private %}
+                    {{ component('sales_kit:action_button', {action: 'makePublic', label: 'opencolibri_sales_kit.ui.make_public'|trans, variant: 'outline', confirm: 'opencolibri_sales_kit.ui.make_public_confirm'|trans, confirm_title: 'opencolibri_sales_kit.ui.make_public_confirm_title'|trans, size: 'default', icon: 'lucide:globe'}) }}
+                {% else %}
+                    {{ component('sales_kit:action_button', {action: 'makePrivate', label: 'opencolibri_sales_kit.ui.make_private'|trans, variant: 'outline', size: 'default', icon: 'lucide:lock'}) }}
+                {% endif %}
+            </div>
+        </twig:shadcn:Card:Content>
+    </twig:shadcn:Card>
+</div>

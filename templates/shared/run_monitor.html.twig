@@ -1,0 +1,10 @@
+{#
+ # Tasks panel and logs modal of the castor-api runs. The page reloaded when a run finishes comes from the
+ # "run_monitor" context ({route, params}), or from the "reload_route" configuration of this hookable.
+ #}
+{% set reload = hookable_metadata.context.run_monitor|default({
+    route: hookable_metadata.configuration.reload_route|default('opencolibri_sales_kit_shop_index'),
+    params: {},
+}) %}
+
+{{ component('SalesKit:RunMonitor', {reloadRoute: reload.route, reloadParams: reload.params|default({})}) }}

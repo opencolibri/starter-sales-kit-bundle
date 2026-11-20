@@ -1,0 +1,19 @@
+{% from '@SyliusShadcnAdminUi/shared/helper/button.html.twig' import default as button %}
+
+{% set shop = hookable_metadata.context.shop %}
+
+<div class="flex flex-wrap items-center gap-2">
+    {% if shop.adminUrl|default(false) %}
+        {{ button({text: 'opencolibri_sales_kit.ui.open_admin'|trans, url: shop.adminUrl, icon: 'lucide:layout-dashboard', variant: 'outline', attr: {target: '_blank', rel: 'noreferrer'}}) }}
+    {% endif %}
+    {% if shop.shopUrl|default(false) %}
+        {# Disabled until the fixtures are generated: the storefront would be empty. #}
+        {% if shop.hasFixtures|default(false) %}
+            {{ button({text: 'opencolibri_sales_kit.ui.open_storefront'|trans, url: shop.shopUrl, icon: 'lucide:external-link', variant: 'default', attr: {target: '_blank', rel: 'noreferrer'}}) }}
+        {% else %}
+            <span title="{{ 'opencolibri_sales_kit.ui.storefront_needs_fixtures'|trans }}">
+                {{ button({text: 'opencolibri_sales_kit.ui.open_storefront'|trans, icon: 'lucide:external-link', variant: 'default', disabled: true}) }}
+            </span>
+        {% endif %}
+    {% endif %}
+</div>

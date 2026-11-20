@@ -1,0 +1,21 @@
+{% from '@SyliusShadcnAdminUi/shared/helper/ui.html.twig' import button_class %}
+
+{% set form = hookable_metadata.context.form %}
+{% set submit_class = button_class('default') %}
+{% set cancel_class = button_class('ghost') %}
+{% form_theme form '@SyliusShadcnAdminUi/shared/form_theme.html.twig' %}
+
+<twig:shadcn:Card class="max-w-3xl">
+    <twig:shadcn:Card:Content>
+        {{ form_start(form, {attr: {class: 'flex flex-col gap-6'}}) }}
+            {{ form_row(form.dataset) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.description, {attr: {rows: 3}}) }}
+            {% include '@OpenColibriStarterSalesKit/shared/_image_fields.html.twig' with {form: form, help: 'opencolibri_sales_kit.ui.images_help_new'} %}
+            <div class="flex items-center gap-2 border-t pt-6">
+                <button type="submit" class="{{ submit_class }}">{{ ux_icon('lucide:plus', {'data-icon': 'inline-start', 'aria-hidden': 'true'}) }}{{ 'opencolibri_sales_kit.ui.create_shop'|trans }}</button>
+                <a href="{{ path('opencolibri_sales_kit_shop_index') }}" class="{{ cancel_class }}">{{ 'sylius.ui.cancel'|trans }}</a>
+            </div>
+        {{ form_end(form) }}
+    </twig:shadcn:Card:Content>
+</twig:shadcn:Card>

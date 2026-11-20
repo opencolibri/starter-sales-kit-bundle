@@ -1,0 +1,16 @@
+{% extends '@OpenColibriStarterSalesKit/shared/layout.html.twig' %}
+
+{% set hook = 'opencolibri_sales_kit.shop.new' %}
+{% set context = {
+    form: form,
+    datasets: datasets,
+    page: {
+        title: 'opencolibri_sales_kit.ui.new_shop',
+        subheader: 'opencolibri_sales_kit.ui.new_shop_subheader',
+        icon: 'lucide:store',
+        breadcrumbs: [
+            {name: 'opencolibri_sales_kit.ui.shops', url: path('opencolibri_sales_kit_shop_index')},
+            {name: 'opencolibri_sales_kit.ui.new_shop'},
+        ],
+    },
+} %}

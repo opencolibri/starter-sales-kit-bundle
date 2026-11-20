@@ -1,0 +1,7 @@
+{% set shop = hookable_metadata.context.shop %}
+{# Null (dropped from the context) when castor-api cannot list the themes. #}
+{% set themes = hookable_metadata.context.themes|default(null) %}
+
+{% if themes %}
+    {{ component('SalesKit:ThemePicker', {project: shop.slug, themes: themes, current: shop.theme|default('default')}) }}
+{% endif %}

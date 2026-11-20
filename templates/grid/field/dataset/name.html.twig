@@ -1,0 +1,18 @@
+{# data: OpenColibri\Starter\SalesKitBundle\Model\Dataset #}
+{% set preview = sales_kit_dataset_preview(data.slug) %}
+<div class="flex items-start gap-3">
+    <span class="flex h-16 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted/50 text-muted-foreground">
+        {% if preview %}
+            <img src="{{ preview }}" alt="" width="48" height="64" loading="lazy" class="size-full object-contain">
+        {% else %}
+            {{ ux_icon(data.source == 'ai' ? 'lucide:sparkles' : 'lucide:package', {class: 'size-5', 'aria-hidden': 'true'}) }}
+        {% endif %}
+    </span>
+    <div class="min-w-0">
+        <a href="{{ path('opencolibri_sales_kit_dataset_show', {slug: data.slug}) }}" class="font-medium hover:underline">{{ data.name }}</a>
+        <div class="text-xs text-muted-foreground"><span class="font-mono">{{ data.slug }}</span>{% if data.theme %} · {{ 'opencolibri_sales_kit.ui.theme'|trans|lower }} {{ data.theme }}{% endif %}</div>
+        {% if data.description %}
+            <div class="mt-1 line-clamp-2 max-w-xl text-xs text-muted-foreground">{{ data.description }}</div>
+        {% endif %}
+    </div>
+</div>

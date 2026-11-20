@@ -1,0 +1,30 @@
+[
+    {
+        "slug": "cellar",
+        "name": "Cellar Wine Merchant",
+        "description": "Seventeen wines from fictional estates in seven French regions.",
+        "url": null,
+        "mode": "ai",
+        "source": null,
+        "theme": "cellar",
+        "builtIn": true,
+        "productCount": 17,
+        "collectionCount": 7,
+        "imageCount": 17,
+        "createdAt": null
+    },
+    {
+        "slug": "my-catalog",
+        "name": "My catalog",
+        "description": "Three products built from an AI description.",
+        "url": "https://my-catalog.local",
+        "mode": "ai",
+        "source": "ai",
+        "theme": null,
+        "builtIn": false,
+        "productCount": 3,
+        "collectionCount": 2,
+        "imageCount": 2,
+        "createdAt": "2026-11-18T15:58:25+00:00"
+    }
+]

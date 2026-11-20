@@ -1,0 +1,47 @@
+{% from '@SyliusShadcnAdminUi/shared/helper/ui.html.twig' import button_class %}
+
+{% set shop = hookable_metadata.context.shop %}
+{% set form = hookable_metadata.context.projectForm %}
+{% form_theme form '@SyliusShadcnAdminUi/shared/form_theme.html.twig' %}
+{% set save_class = button_class(form.children.refetch is defined ? 'outline' : 'default') %}
+{% set refetch_class = button_class('default') %}
+
+{% if shop.dataset|default(false) %}
+    {% set description = 'opencolibri_sales_kit.ui.source_dataset'|trans({'%dataset%': shop.dataset}) %}
+{% elseif shop.mode|default('existing') == 'ai' %}
+    {% set description = 'opencolibri_sales_kit.ui.source_ai'|trans %}
+{% else %}
+    {% set description = 'opencolibri_sales_kit.ui.source_existing'|trans %}
+{% endif %}
+
+<twig:shadcn:Card>
+    <twig:shadcn:Card:Header>
+        <twig:shadcn:Card:Title><span class="text-muted-foreground">1.</span> {{ (shop.dataset|default(false) ? 'opencolibri_sales_kit.ui.settings' : 'opencolibri_sales_kit.ui.source')|trans }}</twig:shadcn:Card:Title>
+        <twig:shadcn:Card:Description>{{ description }}</twig:shadcn:Card:Description>
+    </twig:shadcn:Card:Header>
+    <twig:shadcn:Card:Content>
+        {{ form_start(form, {attr: {class: 'flex flex-col gap-6'}}) }}
+            <div class="grid gap-4 md:grid-cols-2">
+                {{ form_row(form.name) }}
+                {% if form.children.url is defined %}{{ form_row(form.url) }}{% endif %}
+                <div class="md:col-span-2">{{ form_row(form.description, {attr: {rows: 4}}) }}</div>
+                {% if form.children.limit is defined %}{{ form_row(form.limit) }}{% endif %}
+            </div>
+
+            {% include '@OpenColibriStarterSalesKit/shared/_image_fields.html.twig' with {form: form, help: 'opencolibri_sales_kit.ui.images_help_edit'} %}
+
+            <div class="flex flex-wrap items-center gap-2 border-t pt-6">
+                <button type="submit" name="{{ form.save.vars.full_name }}" class="{{ save_class }}">
+                    {{ ux_icon('lucide:save', {'data-icon': 'inline-start', 'aria-hidden': 'true'}) }}{{ form.save.vars.label|trans }}
+                </button>
+                {% do form.save.setRendered() %}
+                {% if form.children.refetch is defined %}
+                    <button type="submit" name="{{ form.refetch.vars.full_name }}" class="{{ refetch_class }}">
+                        {{ ux_icon('lucide:refresh-cw', {'data-icon': 'inline-start', 'aria-hidden': 'true'}) }}{{ form.refetch.vars.label|trans }}
+                    </button>
+                    {% do form.refetch.setRendered() %}
+                {% endif %}
+            </div>
+        {{ form_end(form) }}
+    </twig:shadcn:Card:Content>
+</twig:shadcn:Card>

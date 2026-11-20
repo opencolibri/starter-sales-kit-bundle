@@ -1,0 +1,8 @@
+{# data: OpenColibri\Starter\SalesKitBundle\Model\Shop #}
+<div class="flex items-center gap-2">
+    <a href="{{ path('opencolibri_sales_kit_shop_show', {slug: data.slug}) }}" class="font-medium hover:underline">{{ data.name }}</a>
+    {% if data.private %}
+        <twig:shadcn:Badge variant="outline"><twig:ux:icon name="lucide:lock" data-icon="inline-start" />{{ 'opencolibri_sales_kit.ui.private'|trans }}</twig:shadcn:Badge>
+    {% endif %}
+</div>
+<div class="font-mono text-xs text-muted-foreground">{{ data.slug }}</div>

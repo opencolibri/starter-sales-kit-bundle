@@ -1,0 +1,6 @@
+{% from '@SyliusShadcnAdminUi/shared/helper/button.html.twig' import default as button %}
+
+<div class="flex flex-wrap items-center gap-2">
+    {{ button({text: 'opencolibri_sales_kit.ui.new_dataset'|trans, url: path('opencolibri_sales_kit_dataset_index'), icon: 'lucide:database', variant: 'outline'}) }}
+    {{ button({text: 'opencolibri_sales_kit.ui.new_shop'|trans, url: path('opencolibri_sales_kit_shop_new'), icon: 'lucide:plus', variant: 'default'}) }}
+</div>

@@ -1,0 +1,54 @@
+{% from '@SyliusShadcnAdminUi/shared/helper/ui.html.twig' import button_class %}
+{# Read here: inside the <twig:shadcn:*> components, "this" is the nested component. #}
+{% set is_ai = this.ai %}
+{% set disabled_class = button_class('default') %}
+<div {{ attributes.defaults({class: 'flex flex-col gap-4'}) }}>
+    {{ component('sales_kit:message', {message: error}) }}
+
+    <div class="grid gap-6 md:grid-cols-2">
+        <twig:shadcn:Card>
+            <twig:shadcn:Card:Header>
+                <twig:shadcn:Card:Title><span class="text-muted-foreground">2.</span> {{ (hasFixtures ? 'opencolibri_sales_kit.ui.regenerate_fixtures' : 'opencolibri_sales_kit.ui.generate_fixtures')|trans }}</twig:shadcn:Card:Title>
+                <twig:shadcn:Card:Description>
+                    {% if not hasProducts %}
+                        {{ 'opencolibri_sales_kit.ui.fixtures_need_products'|trans }}
+                    {% elseif is_ai %}
+                        {{ (hasFixtures ? 'opencolibri_sales_kit.ui.fixtures_ai_regenerate' : 'opencolibri_sales_kit.ui.fixtures_ai_generate')|trans }}
+                    {% else %}
+                        {{ (hasFixtures ? 'opencolibri_sales_kit.ui.fixtures_regenerate' : 'opencolibri_sales_kit.ui.fixtures_generate')|trans }}
+                    {% endif %}
+                </twig:shadcn:Card:Description>
+            </twig:shadcn:Card:Header>
+            <twig:shadcn:Card:Content class="flex flex-col gap-4">
+                {% if hasProducts and not is_ai %}
+                    <twig:shadcn:Field>
+                        <twig:shadcn:Label for="limit">{{ 'opencolibri_sales_kit.ui.max_products'|trans }}</twig:shadcn:Label>
+                        <twig:shadcn:Input type="number" id="limit" min="1" max="500" data-model="limit" value="{{ limit }}" aria-describedby="limit-help" class="w-32" />
+                        <twig:shadcn:Field:Description id="limit-help">{{ 'opencolibri_sales_kit.ui.max_products_help'|trans }}</twig:shadcn:Field:Description>
+                    </twig:shadcn:Field>
+                {% endif %}
+                <div>
+                    {% if hasProducts %}
+                        {{ component('sales_kit:action_button', {action: 'generate', label: (hasFixtures ? 'opencolibri_sales_kit.ui.regenerate' : 'opencolibri_sales_kit.ui.generate')|trans, variant: 'default', size: 'default', icon: 'lucide:file-cog'}) }}
+                    {% else %}
+                        <button type="button" class="{{ disabled_class }}" disabled>{{ 'opencolibri_sales_kit.ui.generate'|trans }}</button>
+                    {% endif %}
+                </div>
+            </twig:shadcn:Card:Content>
+        </twig:shadcn:Card>
+
+        <twig:shadcn:Card>
+            <twig:shadcn:Card:Header>
+                <twig:shadcn:Card:Title><span class="text-muted-foreground">3.</span> {{ 'opencolibri_sales_kit.ui.load_into_sylius'|trans }}</twig:shadcn:Card:Title>
+                <twig:shadcn:Card:Description>{{ (hasFixtures ? 'opencolibri_sales_kit.ui.load_description' : 'opencolibri_sales_kit.ui.load_needs_fixtures')|trans }}</twig:shadcn:Card:Description>
+            </twig:shadcn:Card:Header>
+            <twig:shadcn:Card:Content>
+                {% if hasFixtures %}
+                    {{ component('sales_kit:action_button', {action: 'load', label: 'opencolibri_sales_kit.ui.load'|trans, variant: 'default', size: 'default', icon: 'lucide:database-zap'}) }}
+                {% else %}
+                    <button type="button" class="{{ disabled_class }}" disabled>{{ 'opencolibri_sales_kit.ui.load'|trans }}</button>
+                {% endif %}
+            </twig:shadcn:Card:Content>
+        </twig:shadcn:Card>
+    </div>
+</div>

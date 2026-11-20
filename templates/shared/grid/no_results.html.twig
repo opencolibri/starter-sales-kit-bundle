@@ -1,0 +1,17 @@
+{#
+ # Empty state of a grid page: nothing at all, or nothing matching the filters. Configuration: icon, title,
+ # description (shown when there are no filters).
+ #}
+{% set resources = hookable_metadata.context.resources|default(null) %}
+{% set configuration = hookable_metadata.configuration %}
+{% set filtered = app.request.query.all('criteria') is not empty %}
+
+{% if resources is not null and resources.data|length == 0 %}
+    <twig:shadcn:Empty class="border border-dashed">
+        <twig:shadcn:Empty:Header>
+            <twig:shadcn:Empty:Media variant="icon"><twig:ux:icon name="{{ filtered ? 'lucide:search-x' : configuration.icon }}" /></twig:shadcn:Empty:Media>
+            <twig:shadcn:Empty:Title>{{ (filtered ? 'opencolibri_sales_kit.ui.no_results' : configuration.title)|trans }}</twig:shadcn:Empty:Title>
+            <twig:shadcn:Empty:Description>{{ (filtered ? 'opencolibri_sales_kit.ui.no_results_description' : configuration.description)|trans }}</twig:shadcn:Empty:Description>
+        </twig:shadcn:Empty:Header>
+    </twig:shadcn:Empty>
+{% endif %}

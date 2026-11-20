@@ -1,0 +1,5 @@
+{% if data %}
+    <span class="inline-flex items-center gap-1.5 text-success"><twig:ux:icon name="lucide:circle-check" class="size-4" />{{ 'opencolibri_sales_kit.ui.generated'|trans }}</span>
+{% else %}
+    <span class="inline-flex items-center gap-1.5 text-muted-foreground"><twig:ux:icon name="lucide:circle-dashed" class="size-4" />{{ 'opencolibri_sales_kit.ui.not_generated'|trans }}</span>
+{% endif %}

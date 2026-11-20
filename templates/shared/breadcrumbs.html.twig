@@ -1,0 +1,6 @@
+{# Breadcrumbs from the "page" context: page.breadcrumbs = [{name, url?}, ...], after the dashboard. #}
+{% from '@SyliusShadcnAdminUi/shared/helper/breadcrumbs.html.twig' import breadcrumbs %}
+
+{% set page = hookable_metadata.context.page|default({}) %}
+
+{{ breadcrumbs([{name: 'sylius.ui.dashboard', url: path('sylius_admin_ui_dashboard')}]|merge(page.breadcrumbs|default([]))) }}

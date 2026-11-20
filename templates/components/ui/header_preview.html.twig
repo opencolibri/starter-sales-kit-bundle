@@ -1,0 +1,48 @@
+{#-
+ # Wireframe of a storefront header (see docs/themes/header-layout.md): the logo row, then the search and the menu
+ # rows when they have one. The menu and the search, the parts the options move, are drawn in the primary color.
+ # Decorative: the selects of the header layout card carry the options.
+ #}
+{%- props menu = 'inline', search = 'none' -%}
+{%- set links -%}
+    {%- for width in ['w-5', 'w-7', 'w-4', 'w-6'] -%}
+        <span class="h-1.5 {{ width }} shrink-0 rounded-full bg-primary/70"></span>
+    {%- endfor -%}
+{%- endset -%}
+{%- set field_class = 'flex h-4 items-center justify-end rounded-sm border border-primary/70 px-1 text-primary' -%}
+{#- Captured: "{% set x = ux_icon() %}" would be escaped where printed (see README). -#}
+{%- set magnifier %}{{ ux_icon('lucide:search', {class: 'size-2.5'}) }}{% endset -%}
+<div {{ attributes.defaults({class: 'overflow-hidden rounded-md border bg-background text-foreground', 'aria-hidden': 'true'}) }}>
+    <div class="flex items-center gap-2 px-3 py-2.5">
+        <span class="h-3 w-8 shrink-0 rounded-sm bg-foreground/70"></span>
+        {% if menu == 'inline' %}
+            <span class="flex items-center gap-1.5">{{ links }}</span>
+        {% endif %}
+        {% if search == 'inline' %}
+            <span class="{{ field_class }} {{ menu == 'inline' ? 'w-12' : 'max-w-40 flex-1' }}">{{ magnifier }}</span>
+        {% endif %}
+        <span class="ms-auto flex items-center gap-1.5">
+            {% if search == 'icon' %}
+                <span class="relative flex text-primary">
+                    {{ ux_icon('lucide:search', {class: 'size-3'}) }}
+                    <span class="{{ field_class }} absolute top-4 right-0 w-16 bg-background shadow-sm">{{ magnifier }}</span>
+                </span>
+            {% endif %}
+            <span class="size-2.5 rounded-full bg-muted-foreground/50"></span>
+            <span class="size-2.5 rounded-full bg-muted-foreground/50"></span>
+        </span>
+    </div>
+    {% if search == 'below' %}
+        <div class="px-3 pb-2.5"><span class="{{ field_class }} w-full">{{ magnifier }}</span></div>
+    {% endif %}
+    {% if menu == 'below' %}
+        <div class="mx-3 flex items-center gap-1.5 border-t py-2">{{ links }}</div>
+    {% elseif menu == 'bar' %}
+        <div class="flex items-center justify-center gap-1.5 border-t bg-primary/10 py-2">{{ links }}</div>
+    {% endif %}
+    <div class="grid grid-cols-3 gap-1.5 border-t bg-muted/50 p-3">
+        <span class="h-6 rounded-sm bg-muted"></span>
+        <span class="h-6 rounded-sm bg-muted"></span>
+        <span class="h-6 rounded-sm bg-muted"></span>
+    </div>
+</div>
