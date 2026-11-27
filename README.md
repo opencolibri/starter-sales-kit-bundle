@@ -56,7 +56,7 @@ An instance is a Symfony app (AssetMapper, Tailwind) next to a sales kit stack. 
 release yet: allow its development version next to the package.
 
 ```bash
-composer require opencolibri/starter-sales-kit-bundle:^0.1@dev sylius/shadcn-admin-ui:^0.14@dev
+composer require opencolibri/starter-sales-kit-bundle:^0.1@dev sylius/shadcn-admin-ui:^0.15
 ```
 
 Flex enables the bundles. Then:
